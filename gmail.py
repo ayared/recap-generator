@@ -1,3 +1,7 @@
+"""gmail.py
+Interacts with the Gmail API to create the email draft
+"""
+
 from __future__ import print_function
 import pickle
 import os.path
