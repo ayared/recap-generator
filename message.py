@@ -20,7 +20,7 @@ def create_intro(msg, gameweek):
     Returns:
         intro: intro message for email
     """
-    msg += "Hello everyone,\nWelcome to a partially-programatically generated\
+    msg += "Hello everyone,\n\nWelcome to a partially-programatically generated\
  gameweek {} recap!\n\n".format(gameweek)
     return msg
 
@@ -55,7 +55,7 @@ def parse_scores(json_data, msg):
                 result["entry_1_points"],
                 result["entry_2_points"])
 
-        else:
+        elif result["entry_2_win"]:
             msg += "{}'s {} beat {}'s {} {}-{}\n\n".format(
                 result["entry_2_player_name"],
                 result["entry_2_name"],
@@ -63,6 +63,15 @@ def parse_scores(json_data, msg):
                 result["entry_1_name"],
                 result["entry_2_points"],
                 result["entry_1_points"])
+
+        else:  # could be none of the above if the gameweek isn't over!
+            msg += "{}'s {} {} {}'s {} {}\n\n".format(
+                result["entry_1_player_name"],
+                result["entry_1_name"],
+                result["entry_1_points"],
+                result["entry_2_player_name"],
+                result["entry_2_name"],
+                result["entry_2_points"])
 
     return msg
 
@@ -77,9 +86,12 @@ def create_outro(msg, gameweek):
     Returns:
         outro: outro message for email
     """
+    next_week = int(gameweek) + 1
+    next_str = str(next_week)
+
     msg += "That's it for this week, the gameweek {} deadline is [***], so\
-make sure to get your trades and trash-talking in before then!\n\n\
-Your humble league administrator,\nAlexander".format(gameweek+1)
+ make sure to get your trades and trash-talking in before then!\n\n\
+Your humble league administrator,\nAlexander".format(next_str)
 
     return msg
 
