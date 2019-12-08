@@ -20,16 +20,18 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
 SUBJECT = "Gameweek N Recap"
 MESSAGE = "Lol Benny lost again"
 
+
 def main():
     service = start_service()
     email = create_message(SENDER, RECIPIENTS, SUBJECT, MESSAGE)
     create_draft(service, 'me', email)
 
+
 def mail_runner(subject, message):
     """Main entry point for gmail.py
     Creates an email draft with the given subject and messages
     Populates sender and recipients based on config.py
-    
+
     Args:
         subject (str): subject line for the email
         message (str): body for the email
@@ -52,7 +54,7 @@ def start_service():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('token.pickle'):      
+    if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
@@ -69,6 +71,7 @@ def start_service():
 
     service = build('gmail', 'v1', credentials=creds)
     return service
+
 
 def create_message(sender, to, subject, message_text):
     """Create a message for an email.
@@ -87,10 +90,10 @@ def create_message(sender, to, subject, message_text):
     message['from'] = sender
     message['subject'] = subject
 
-    # return {'raw': base64.urlsafe_b64encode(message.as_string().encode("UTF-8"))}
     raw = base64.urlsafe_b64encode(message.as_bytes())
     raw = raw.decode()
     return {'raw': raw}
+
 
 def create_draft(service, user_id, message_body):
     """Create and insert a draft email. Print the returned draft's message and id.
@@ -106,9 +109,11 @@ def create_draft(service, user_id, message_body):
     """
     try:
         message = {'message': message_body}
-        draft = service.users().drafts().create(userId=user_id, body=message).execute()
+        draft = service.users().drafts().\
+            create(userId=user_id, body=message).execute()
 
-        print('Draft id: %s\nDraft message: %s' % (draft['id'], draft['message']))
+        print('Draft id: %s\nDraft message: %s' %
+              (draft['id'], draft['message']))
 
         return draft
     except Exception as error:
