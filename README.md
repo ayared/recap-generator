@@ -1,6 +1,6 @@
 # recap-generator
 
-recap-generator automatically creates the skeleton for an FPL recap email. It can be run from the command-line as ./recapper.py. 
+recap-generator automatically creates the skeleton for an FPL recap email. It can be run from the command-line as `python recapper.py`. 
 The only input that it needs from the user is the current gameweek. 
 
 To run successfully, you will have to create your own config.py file, structured as follows:
