@@ -1,6 +1,7 @@
 """message.py
 Creates the actual email message to send!
 """
+from random import shuffle
 
 
 def message_runner(json_data, gameweek):
@@ -28,6 +29,7 @@ def create_intro(msg, gameweek):
 def parse_scores(json_data, msg):
     """parse_scores
     Takes in json data from API query and returns email body
+    Shuffle results to change up the order each week!
 
     Args:
         json_data: json formatted gameweek data
@@ -35,7 +37,7 @@ def parse_scores(json_data, msg):
     Returns:
         msg: matches written up with scores and team names
     """
-
+    shuffle(json_data["results"])
     for result in json_data["results"]:
         if result["entry_1_draw"]:
             msg += "{}'s {} tied {}'s {} {}-{}\n\n".format(
